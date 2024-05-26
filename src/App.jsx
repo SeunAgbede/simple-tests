@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Car from './components/car'
-
+import Hello from '../src/components/hello'; 
 import axios from 'axios';
 
 
@@ -35,9 +35,6 @@ function App() {
     fetchData();
   }, []);
 
-  console.log(my_app_data)
-  console.log(count)
-
 
   return (
     <div >
@@ -56,6 +53,8 @@ function App() {
       <div className='mt-10'>
         If bored : {my_app_data.map((i) => i.activity)}
       </div>
+
+      <Hello />
 
 
     </div>
