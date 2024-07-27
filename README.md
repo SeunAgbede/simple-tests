@@ -1,3 +1,3 @@
-# TEST-APP
+# Simple-tests
 
 Repo to test stuff
