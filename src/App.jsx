@@ -1,16 +1,5 @@
+import React from 'react';
 import { useEffect, useState } from 'react'
-import Car from './components/car'
-import Hello from '../src/components/hello'; 
-
-import { Data } from "../utils/data";
-import { CategoryScale } from "chart.js";
-import Chart from "chart.js/auto";
-Chart.register(CategoryScale);
-import PieChart from "./components/chart";
-
-
-import data from '/public/my-app-data.json'
-
 
 function App() {
 
@@ -21,48 +10,38 @@ function App() {
     setCount((count) => count + 1)
   }
 
+  function reset() {
+    setCount(0)
+  }
+
   // Use effect example
   useEffect(() => {
     setdValue(count * 2)
   }, [count])
 
-  const [chartData, setChartData] = useState({
-    labels: Data.map((data) => data.year), 
-    datasets: [
-      {
-        label: "Users",
-        data: Data.map((data) => data.userGain),
-      }
-    ]
-  });
 
   return (
-    <div >
-      <button className="bg-gray-300 p-2" onClick={increase}>
-        count is {count}
-      </button>
+    <div>
+      <div className='border-2 border-gray-500 p-5 w-1/3'>
+        <div className='mb-2'>
+          <p>The count is : {count}</p>
+          <p>The doubled count is : {dValue}</p>
+        </div>
 
-      <p>The doubled value is : {dValue}</p>
-
-      <Car
-        name={'Ford'}
-        description={'Mustang'}
-        price={'£300'}
-      />
-
-      <div className='mt-10'>
-        If bored : {data.map((i) => i.activity)}
+        <div className='flex gap-2'>
+          <button className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded" onClick={increase}>
+            Double
+          </button>
+          <button className="bg-gray-500 hover:bg-gray-400 text-white font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded" onClick={reset}>
+            Reset
+          </button>
+        </div>
       </div>
 
-      <Hello />
-
-      <div className='h-[150px]'>
-        <PieChart chartData={chartData} />
-      </div>
-
+      <p className='mt-5'>Hello World!</p>
 
     </div>
   )
 }
 
-export default App
+export default App;

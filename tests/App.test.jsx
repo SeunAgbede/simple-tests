@@ -1,76 +1,58 @@
 import React from 'react';
 import '@testing-library/jest-dom'
-import { render, screen } from '@testing-library/react';
-import App from '../src/App'
+import { render, screen, fireEvent } from '@testing-library/react';
+import App from '../src/App.jsx';
 import { debug } from 'jest-preview';
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
+
+// Test case 1
+test('Hello World! text displays', () => {
+  render(<App />);
+  debug()
+
+  const text = screen.getByText(/Hello World!/i)
+  expect(text).toBeInTheDocument();
+});
 
 
-// Mock axios
-const mockAxios = new MockAdapter(axios);
+// Test case 2
+test('Other text displays', () => {
+  render(<App />);
 
-// Mock data to be returned by axios
-const mockData = [
-  { activity: 'Go for a walk' },
-  { activity: 'Read a book' },
-];
+  const text1 = screen.getByText(/The count is :/i)
+  const text2 = screen.getByText(/The doubled count is :/i)
 
-describe('App Component', () => {
-  beforeEach(() => {
-    mockAxios.reset();
-  });
+  expect(text1).toBeInTheDocument();
+  expect(text2).toBeInTheDocument();
+});
 
-  test('renders App component correctly', () => {
-    render(<App />);
-    debug()
-    
-    expect(screen.getByText(/count is 0/i)).toBeInTheDocument();
-    expect(screen.getByText(/The doubled value is : 0/i)).toBeInTheDocument();
-    expect(screen.getByText(/Ford/i)).toBeInTheDocument();
-    expect(screen.getByText(/Mustang/i)).toBeInTheDocument();
-    expect(screen.getByText(/£300/i)).toBeInTheDocument();
-  });
 
-  test('increments count and updates doubled value on button click', () => {
-    render(<App />);
-    debug()
+// Test case 3
+test('Buttons are displayed', () => {
+  render(<App />);
 
-    const button = screen.getByText(/count is 0/i);
-    fireEvent.click(button);
-    expect(screen.getByText(/count is 1/i)).toBeInTheDocument();
-    expect(screen.getByText(/The doubled value is : 2/i)).toBeInTheDocument();
-  });
+  const doubleBtn = screen.getByRole('button', { name: /Double/i })
+  const resetBtn = screen.getByRole('button', { name: /Reset/i })
 
-  test('fetches and displays data correctly', async () => {
-    mockAxios.onGet('/my-app-data.json').reply(200, mockData);
+  expect(doubleBtn).toBeInTheDocument();
+  expect(resetBtn).toBeInTheDocument();
+});
 
-    render(<App />);
-    debug()
 
-    await waitFor(() => {
-      expect(screen.getByText(/Go for a walk/i)).toBeInTheDocument();
-      expect(screen.getByText(/Read a book/i)).toBeInTheDocument();
-    });
-  });
+// Test case 4
+test('functionality of the Buttons', () => {
+  render(<App />);
 
-  test('handles fetch data error', async () => {
-    mockAxios.onGet('/my-app-data.json').networkError();
+  const doubleBtn = screen.getByRole('button', { name: /Double/i })
+  const resetBtn = screen.getByRole('button', { name: /Reset/i })
 
-    const consoleErrorMock = jest.spyOn(console, 'error').mockImplementation(() => {});
+  fireEvent.click(doubleBtn);
+  expect(screen.getByText(/1/i));
+  expect(screen.getByText(/2/i));
 
-    render(<App />);
-    debug()
+  fireEvent.click(doubleBtn);
+  expect(screen.getByText(/2/i));
+  expect(screen.getByText(/4/i));
 
-    await waitFor(() => {
-      expect(consoleErrorMock).toHaveBeenCalledWith(expect.stringContaining('Error fetching data:'));
-    });
-
-    consoleErrorMock.mockRestore();
-  });
-
-  test('renders Hello component', () => {
-    render(<App />);
-    expect(screen.getByText(/Hello/i)).toBeInTheDocument();
-  });
+  fireEvent.click(resetBtn);
+  expect(screen.getAllByText(/0/i));
 });
