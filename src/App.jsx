@@ -1,7 +1,15 @@
 import { useEffect, useState } from 'react'
 import Car from './components/car'
 import Hello from '../src/components/hello'; 
-import axios from 'axios';
+
+import { Data } from "../utils/data";
+import { CategoryScale } from "chart.js";
+import Chart from "chart.js/auto";
+Chart.register(CategoryScale);
+import PieChart from "./components/chart";
+
+
+import data from '/public/my-app-data.json'
 
 
 function App() {
@@ -18,23 +26,15 @@ function App() {
     setdValue(count * 2)
   }, [count])
 
-
- // test data 
-  const [my_app_data, setmy_app_data] = useState([]);
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`/my-app-data.json`); // Assuming the JSON file is served from the root directory
-      setmy_app_data(response.data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-  
-  useEffect(() => {
-    fetchData();
-  }, []);
-
+  const [chartData, setChartData] = useState({
+    labels: Data.map((data) => data.year), 
+    datasets: [
+      {
+        label: "Users",
+        data: Data.map((data) => data.userGain),
+      }
+    ]
+  });
 
   return (
     <div >
@@ -51,10 +51,14 @@ function App() {
       />
 
       <div className='mt-10'>
-        If bored : {my_app_data.map((i) => i.activity)}
+        If bored : {data.map((i) => i.activity)}
       </div>
 
       <Hello />
+
+      <div className='h-[150px]'>
+        <PieChart chartData={chartData} />
+      </div>
 
 
     </div>

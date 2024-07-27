@@ -5,22 +5,22 @@ function LineChart({ chartData }) {
 
   return (
     <div>
-      <h2 style={{ textAlign: "center" }}>Bar Chart</h2>
-
-      <Line
-        data={chartData}
-        options={{
-          plugins: {
-            title: {
-              display: true,
-              text: "Users Gained between 2016-2020"
-            },
-            legend: {
-              display: true
+      <div className='w-[50%]'>
+        <Line
+          data={chartData}
+          options={{
+            plugins: {
+              title: {
+                display: true,
+                text: "Users Gained between 2016-2020"
+              },
+              legend: {
+                display: true
+              }
             }
-          }
-        }}
-      />
+          }}
+        />
+      </div>
 
     </div>
   );
