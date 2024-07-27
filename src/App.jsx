@@ -22,6 +22,8 @@ function App() {
 
   return (
     <div>
+      <p className='mb-5'>Simple Counter App</p>
+
       <div className='border-2 border-gray-500 p-5 w-1/3'>
         <div className='mb-2'>
           <p>The count is : {count}</p>
@@ -37,9 +39,6 @@ function App() {
           </button>
         </div>
       </div>
-
-      <p className='mt-5'>Hello World!</p>
-
     </div>
   )
 }
