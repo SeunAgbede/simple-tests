@@ -7,8 +7,8 @@ A repo to demonstrate writing unit tests in Jest with a simple counter applicati
 - Application code in the `src` folder
 - Tests are in the `tests` folder
 - Take note of config files
-  - jest.config.cjs
-  - babel.config.cjs
+  - `jest.config.cjs`
+  - `babel.config.cjs`
 
 
 ## Run tests
